@@ -1,64 +1,69 @@
 import React, { Component } from 'react'
-import store from './store'
 
 export const Context = React.createContext({
-	notes: [],
-	folders: [],
 	addFolder: () => {},
 	addNote: () => {},
 	deleteNote: () => {},
+	getCurrentNote: () => {},
 })
 
 export class AppContext extends Component {
-	state = { folders: [], notes: [], error: false }
+	state = {
+		folders: [],
+		notes: [],
+		error: false,
+	}
 	setNotes = (newNotes) => {
 		this.setState({ notes: newNotes })
 	}
 	setFolders = (newFolders) => {
 		this.setState({ folders: newFolders })
 	}
-	getCurrentNote = (id) =>
-		this.state.notes.find((note) => note.id === id)
+	getCurrentNote = (id) => {
+		// this.state.notes.find((note) => note.id === id)
+		this.state.notes.filter((note) => note.id === id)
+	}
 	getName = (id) =>
 		this.state.folders.find((folder) => folder.id === id).name
+
 	getFolderId = (matchId) =>
 		this.state.notes.find((note) => note.id === matchId).folderId
 
+	addFolder = (folder) => {
+		this.setState({
+			folders: [...this.state.folders, folder],
+		})
+		console.log(folder)
+	}
 	deleteNote = (noteid) => {
 		const updated = this.state.notes.filter(
 			(note) => note.id !== noteid
 		)
 		this.setState({ notes: updated })
 	}
+	addNote = (note) => {
+		this.setState({ notes: [...this.state.notes, note] })
+	}
 
 	componentDidMount() {
-		console.log('mounted')
-		fetch('http://localhost:9090/folders', {
-			method: 'GET',
-			headers: { 'content-type': 'application/json' },
-		})
-			.then((res) => {
-				if (!res.ok) {
-					throw new Error(res.status)
-				}
-				return res.json()
+		Promise.all([
+			fetch(`http://localhost:9090/notes`),
+			fetch(`http://localhost:9090/folders`),
+		])
+			.then(([notesRes, foldersRes]) => {
+				if (!notesRes.ok)
+					return notesRes.json().then((e) => Promise.reject(e))
+				if (!foldersRes.ok)
+					return foldersRes.json().then((e) => Promise.reject(e))
+
+				return Promise.all([notesRes.json(), foldersRes.json()])
 			})
-			.then((data) => this.setFolders(data))
-			.catch((error) => this.setState({ error: error.message }))
-		console.log('got folders')
-		fetch('http://localhost:9090/notes', {
-			method: 'GET',
-			headers: { 'content-type': 'application/json' },
-		})
-			.then((res) => {
-				if (!res.ok) {
-					throw new Error(res.status)
-				}
-				return res.json()
+			.then(([notes, folders]) => {
+				this.setState({ notes, folders })
 			})
-			.then((data) => this.setNotes(data))
-			.catch((error) => this.setState({ error: error.message }))
-		console.log('got notes')
+			.catch((error) => {
+				console.error({ error })
+			})
 	}
 
 	render() {
@@ -74,6 +79,8 @@ export class AppContext extends Component {
 						getFolderId: this.getFolderId,
 						getCurrentNote: this.getCurrentNote,
 						deleteNote: this.deleteNote,
+						addFolder: this.addFolder,
+						addNote: this.addNote,
 					},
 					getCurrentNote: this.getCurrentNote,
 				}}

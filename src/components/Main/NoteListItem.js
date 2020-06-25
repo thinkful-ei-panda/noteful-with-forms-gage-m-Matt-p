@@ -1,30 +1,35 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link, withRouter } from 'react-router-dom'
+import { MdDeleteForever } from 'react-icons/md'
 import './Main.css'
-import { Consumer, AppContext } from '../../AppContext'
+import './button.css'
+import { Consumer, Context } from '../../AppContext'
 
-export default class NoteListItem extends Component {
+class NoteListItem extends Component {
 	static defaultProps = {
 		deleteNote: () => {},
 	}
 
 	handleClickDelete = (event) => {
 		event.preventDefault()
-		const noteid = event.target.id
+		const noteid = this.props.note.id
 		fetch(`http://localhost:9090/notes/${noteid}`, {
 			method: 'DELETE',
-		}).then((res) => {
-			if (!res.ok) {
-				return res.json().then((error) => {
-					throw error
-				})
-			}
-			return res.json()
 		})
+			.then((res) => {
+				if (!res.ok) {
+					return res.json().then((error) => {
+						throw error
+					})
+				}
+				return res.json()
+			})
+			.then(() => this.props.history.push('/'))
 	}
+	static contextType = Context
 	render() {
 		const { note } = this.props
+		const { deleteNote } = this.context.actions
 		return (
 			<li className='note__item'>
 				<div className='note__'>
@@ -33,21 +38,18 @@ export default class NoteListItem extends Component {
 					</h2>
 					<Consumer>
 						{(value) => (
-							<button
+							<MdDeleteForever
 								key={note.id}
 								id={note.id}
-								className='note__delete'
+								className='delete__icon'
 								onClick={(event) => {
 									console.log('clicked')
 									this.handleClickDelete(event)
-									value.actions.deleteNote(event.target.id)
+									deleteNote(note.id)
 								}}
-							>
-								remove
-							</button>
+							/>
 						)}
 					</Consumer>
-
 					<div className='note__dates'>
 						<div className='note__date__'>
 							Modified{' '}
@@ -61,3 +63,5 @@ export default class NoteListItem extends Component {
 		)
 	}
 }
+
+export default withRouter(NoteListItem)

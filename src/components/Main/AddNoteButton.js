@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import './button.css'
+
 export default function AddNoteButton() {
 	return (
 		<div className='add__note__container'>
