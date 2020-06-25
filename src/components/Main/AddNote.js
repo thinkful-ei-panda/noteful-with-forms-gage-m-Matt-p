@@ -1,13 +1,9 @@
 import React from 'react'
 import './AddNote.css'
 import './Main.css'
+import { Consumer } from '../../AppContext'
 
-export default function AddNote(props) {
-	const options = props.folders.map((folder) => (
-		<option key={folder.id} id={folder.id} value={folder.id}>
-			{folder.name}
-		</option>
-	))
+export default function AddNote() {
 	return (
 		<main className='app__main'>
 			<section className='note__list__wrapper'>
@@ -23,12 +19,24 @@ export default function AddNote(props) {
 					</div>
 					<div className='form__field'>
 						<label htmlFor='folder__select'>Select Folder</label>
-						<select id='folder__select'>
-							<option id='empty' value=''>
-								Folders...
-							</option>
-							{options}
-						</select>
+						<Consumer>
+							{(value) => (
+								<select id='folder__select'>
+									<option id='empty' value=''>
+										Folders...
+									</option>
+									{value.state.folders.map((folder) => (
+										<option
+											key={folder.id}
+											id={folder.id}
+											value={folder.id}
+										>
+											{folder.name}
+										</option>
+									))}
+								</select>
+							)}
+						</Consumer>
 					</div>
 					<div className='add__button'>
 						<button type='submit'>Add Button</button>

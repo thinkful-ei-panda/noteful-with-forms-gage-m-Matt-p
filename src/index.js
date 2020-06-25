@@ -5,11 +5,14 @@ import './index.css'
 import './normalize.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
+import { AppContext } from './AppContext'
 
 ReactDOM.render(
-	<BrowserRouter>
-		<App />
-	</BrowserRouter>,
+	<AppContext>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</AppContext>,
 	document.getElementById('root')
 )
 

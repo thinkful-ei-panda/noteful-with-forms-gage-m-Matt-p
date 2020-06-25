@@ -3,7 +3,7 @@ import React from 'react'
 import './AddFolderMain.css'
 import './Main.css'
 
-export default function AddFolderMain(props) {
+export default function AddFolderMain() {
 	return (
 		<main className='app__main'>
 			<section className='form__wrapper'>

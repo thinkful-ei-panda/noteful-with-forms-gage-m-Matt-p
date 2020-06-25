@@ -82,3 +82,6 @@
 .add__note__link:hover {
 	cursor: pointer;
 }
+.note__item {
+	list-style-type: none;
+}

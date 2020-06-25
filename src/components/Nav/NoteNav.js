@@ -1,13 +1,10 @@
 import React from 'react'
 // import { Link } from 'react-router-dom'
 import './Sidebar.css'
+import { Consumer } from '../../AppContext'
 
 export default function NoteNav(props) {
-	const id = props.notes.find(
-		(note) => note.id === props.match.params.noteid
-	).folderId
-	const name = props.folders.find((folder) => folder.id === id).name
-
+	const currentNoteId = props.match.params.noteid
 	return (
 		<nav className='Sidebar__nav'>
 			<div className='nav__list'>
@@ -15,7 +12,16 @@ export default function NoteNav(props) {
 					Go Back
 				</button>
 			</div>
-			<div>Folder:{name}</div>
+			<Consumer>
+				{(value) => (
+					<div>
+						Folder:
+						{value.actions.getName(
+							value.actions.getFolderId(currentNoteId)
+						)}
+					</div>
+				)}
+			</Consumer>
 		</nav>
 	)
 }
