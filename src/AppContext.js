@@ -20,14 +20,13 @@ export class AppContext extends Component {
 		this.setState({ folders: newFolders })
 	}
 	getCurrentNote = (id) => {
-		// this.state.notes.find((note) => note.id === id)
-		this.state.notes.filter((note) => note.id === id)
+		return this.state.notes.find((note) => note.id === id)
 	}
-	getName = (id) =>
-		this.state.folders.find((folder) => folder.id === id).name
+	getName = (name) =>
+		this.state.folders.find((folder) => folder.name === name)
 
 	getFolderId = (matchId) =>
-		this.state.notes.find((note) => note.id === matchId).folderId
+		this.state.notes.find((note) => note.id === matchId)
 
 	addFolder = (folder) => {
 		this.setState({
