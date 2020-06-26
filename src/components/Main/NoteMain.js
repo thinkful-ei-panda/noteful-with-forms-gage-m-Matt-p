@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import './Main.css'
 import { Consumer, Context } from '../../AppContext'
+import ErrorBlock from './ErrorBlock'
 
 class NoteMain extends Component {
 	constructor(props) {
@@ -20,39 +21,41 @@ class NoteMain extends Component {
 		return (
 			<main className='app__main'>
 				<section className='note__list__wrapper'>
-					<li className='note__item'>
-						<div className='note__'>
-							<h2 className='note__title'>
-								<Consumer>
-									{(value) => (
-										<Link to={`/note/${this.noteid}`}>
-											{getThisNote(this.noteid).name}
-										</Link>
-									)}
-								</Consumer>
-							</h2>
-							<button className='note__delete'>remove</button>
-							<div className='note__dates'>
-								<div className='note__date__'>
-									Modified{' '}
+					<ErrorBlock>
+						<li className='note__item'>
+							<div className='note__'>
+								<h2 className='note__title'>
 									<Consumer>
 										{(value) => (
-											<span className='date'>{`${new Date(
-												getThisNote(this.noteid).modified
-											).toDateString()}`}</span>
+											<Link to={`/note/${this.noteid}`}>
+												{getThisNote(this.noteid).name}
+											</Link>
 										)}
 									</Consumer>
+								</h2>
+
+								<div className='note__dates'>
+									<div className='note__date__'>
+										Modified{' '}
+										<Consumer>
+											{(value) => (
+												<span className='date'>{`${new Date(
+													getThisNote(this.noteid).modified
+												).toDateString()}`}</span>
+											)}
+										</Consumer>
+									</div>
 								</div>
 							</div>
-						</div>
-					</li>
-					<Consumer>
-						{(value) => (
-							<div className='note__content'>
-								<p>{getThisNote(this.noteid).content}</p>
-							</div>
-						)}
-					</Consumer>
+						</li>
+						<Consumer>
+							{(value) => (
+								<div className='note__content'>
+									<p>{getThisNote(this.noteid).content}</p>
+								</div>
+							)}
+						</Consumer>
+					</ErrorBlock>
 				</section>
 			</main>
 		)

@@ -4,6 +4,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import './Main.css'
 import './button.css'
 import { Consumer, Context } from '../../AppContext'
+import PropTypes from 'prop-types'
 
 class NoteListItem extends Component {
 	static defaultProps = {
@@ -62,6 +63,10 @@ class NoteListItem extends Component {
 			</li>
 		)
 	}
+}
+
+NoteListItem.propTypes = {
+	note: PropTypes.object,
 }
 
 export default withRouter(NoteListItem)
