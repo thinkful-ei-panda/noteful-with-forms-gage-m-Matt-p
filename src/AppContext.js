@@ -22,17 +22,18 @@ export class AppContext extends Component {
 	getCurrentNote = (id) => {
 		return this.state.notes.find((note) => note.id === id)
 	}
-	getName = (name) =>
-		this.state.folders.find((folder) => folder.name === name)
 
-	getFolderId = (matchId) =>
-		this.state.notes.find((note) => note.id === matchId)
+	getFolderId = (matchId) => {
+		console.log(matchId)
+	}
+	getName = (folder) => {
+		console.log(folder)
+	}
 
 	addFolder = (folder) => {
 		this.setState({
 			folders: [...this.state.folders, folder],
 		})
-		console.log(folder)
 	}
 	deleteNote = (noteid) => {
 		const updated = this.state.notes.filter(
@@ -66,7 +67,6 @@ export class AppContext extends Component {
 	}
 
 	render() {
-		console.log(this.state)
 		return (
 			<Context.Provider
 				value={{

@@ -4,12 +4,11 @@ import { Context } from '../../AppContext'
 import ValidateInputError from './ValidateInputErrors'
 
 class AddFolderForm extends Component {
-	state = { 
+	state = {
 		folderNameValue: '',
-		 error: null,
-		 submit : false
-
-		 }
+		error: null,
+		submit: false,
+	}
 	handleSubmit = (event) => {
 		event.preventDefault()
 		this.addFoldertoApi(this.state.folderNameValue)
@@ -24,10 +23,9 @@ class AddFolderForm extends Component {
 	}
 
 	validateInput = () => {
-		if(this.state.folderNameValue.length < 3){
+		if (this.state.folderNameValue.length < 3) {
 			return 'filename must have a name (or a letter)'
 		}
-
 	}
 
 	addFoldertoApi = (newFolderName) => {
@@ -70,18 +68,14 @@ class AddFolderForm extends Component {
 						onChange={(event) =>
 							this.setFolderNameValue(event.target.value)
 						}
+						required
 					/>
 				</div>
-				<ValidateInputError
-				massages={this.validateInput()}
-				/>
+				<ValidateInputError massages={this.validateInput()} />
 				<div className='add__button'>
-					<button 
-					type='submit'
-					disabled={
-						this.validateInput()
-					}
-					>Add Button</button>
+					<button type='submit' disabled={this.validateInput()}>
+						Add Button
+					</button>
 				</div>
 			</form>
 		)

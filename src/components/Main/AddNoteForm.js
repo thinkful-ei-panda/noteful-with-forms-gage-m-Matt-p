@@ -17,9 +17,9 @@ class AddNoteForm extends Component {
 
 	validateName = () => {
 		if (this.state.form.name.length === 0) {
-			return <div>{'note titles must at less.... something '}</div>
+			return <div>{'note titles must at least.... something '}</div>
 		} else if (this.state.form.name.length < 3) {
-			return 'note titles must at least be 3 charters long '
+			return 'titles must at least be 3 characters'
 		}
 	}
 
@@ -46,7 +46,7 @@ class AddNoteForm extends Component {
 	}
 	handleNoteSubmit = (event) => {
 		event.preventDefault()
-		console.log('submitted', this.state.form)
+
 		const { addNote } = this.context.actions
 		const form = JSON.stringify(this.state.form)
 		fetch('http://localhost:9090/notes', {
@@ -66,8 +66,6 @@ class AddNoteForm extends Component {
 	}
 	static contextType = Context
 	render() {
-		console.log(this.state.form.name.length)
-
 		return (
 			<form
 				className='add__note__form'
@@ -89,6 +87,7 @@ class AddNoteForm extends Component {
 								},
 							})
 						}
+						required
 					/>
 					{this.state.submitted && (
 						<ValidateInputError message={this.validateName()} />
@@ -110,6 +109,7 @@ class AddNoteForm extends Component {
 								},
 							})
 						}
+						required
 					/>
 					{this.state.submitted && (
 						<ValidateInputError message={this.validateContent()} />
@@ -133,6 +133,7 @@ class AddNoteForm extends Component {
 										},
 									})
 								}
+								required
 							>
 								<option id='empty' value=''>
 									Folders...
