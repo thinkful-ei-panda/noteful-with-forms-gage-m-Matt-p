@@ -23,14 +23,14 @@ class NoteMain extends Component {
 				}
 				return res.json()
 			})
-			.then(() => this.props.history.goBack())
+			.then(() => this.props.history.push('/'))
 	}
 
 	render() {
 		const { noteid } = this.props.match.params
 		const { getCurrentNote } = this.context.actions
 		const { deleteNote } = this.context.actions
-
+		console.log(this.props)
 		return (
 			<main className='app__main'>
 				<section className='note__list__wrapper'>

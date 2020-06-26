@@ -23,12 +23,11 @@ export class AppContext extends Component {
 		return this.state.notes.find((note) => note.id === id)
 	}
 
-	getFolderId = (matchId) => {
-		console.log(matchId)
-	}
-	getName = (folder) => {
-		console.log(folder)
-	}
+	getName = (id) =>
+		this.state.folders.find((folder) => folder.id === id)
+
+	getFolderId = (matchId) =>
+		this.state.notes.find((note) => note.id === matchId)
 
 	addFolder = (folder) => {
 		this.setState({

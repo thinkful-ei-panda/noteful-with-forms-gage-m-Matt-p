@@ -8,11 +8,16 @@ class NoteNav extends Component {
 
 	static contextType = Context
 	render() {
+		const { noteid } = this.props.match.params
 		const { notes } = this.context.state
 		const { folders } = this.context.state
 		const { getFolderId } = this.context.actions
+		const { getName } = this.context.actions
 		const note = notes.find((note) => note.id === this.currentNoteId)
-
+		const text =
+			folders.length && notes.length > 0
+				? getName(getFolderId(noteid).folderId).name
+				: 'text'
 		return (
 			<nav className='Sidebar__nav'>
 				<div className='nav__list'>
@@ -24,7 +29,7 @@ class NoteNav extends Component {
 					{(value) => (
 						<div>
 							Folder:
-							{this.currentNoteId}
+							{text}
 						</div>
 					)}
 				</Consumer>
