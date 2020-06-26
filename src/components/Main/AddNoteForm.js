@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Consumer, Context } from '../../AppContext'
 import { withRouter } from 'react-router-dom'
+import ValidateInputError from './ValidateInputErrors'
 
 class AddNoteForm extends Component {
 	state = {
@@ -11,6 +12,33 @@ class AddNoteForm extends Component {
 			folderId: '',
 		},
 		error: null,
+		submitted: false,
+	}
+
+	validateName = () => {
+		if (this.state.form.name.length === 0) {
+			return <div>{'note titles must at less.... something '}</div>
+		} else if (this.state.form.name.length < 3) {
+			return 'note titles must at least be 3 charters long '
+		}
+	}
+
+	validateContent = () => {
+		if (this.state.form.content.length < 10) {
+			return (
+				<div>
+					{
+						'come on there has to be more content than that...please enter 10 or more characters'
+					}
+				</div>
+			)
+		}
+	}
+
+	validateFolderId = () => {
+		if (this.state.form.folderId.length === 0) {
+			return <div>{'please select a folder'}</div>
+		}
 	}
 
 	setError = (error) => {
@@ -38,6 +66,8 @@ class AddNoteForm extends Component {
 	}
 	static contextType = Context
 	render() {
+		console.log(this.state.form.name.length)
+
 		return (
 			<form
 				className='add__note__form'
@@ -60,6 +90,10 @@ class AddNoteForm extends Component {
 							})
 						}
 					/>
+					{this.state.submitted && (
+						<ValidateInputError message={this.validateName()} />
+					)}
+					{this.validateName()}
 				</div>
 				<div className='form__field'>
 					<label htmlFor='content__input'>Content</label>
@@ -77,9 +111,15 @@ class AddNoteForm extends Component {
 							})
 						}
 					/>
+					{this.state.submitted && (
+						<ValidateInputError message={this.validateContent()} />
+					)}
+					{this.validateContent()}
 				</div>
+
 				<div className='form__field'>
 					<label htmlFor='folder__select'>Select Folder</label>
+					{this.validateFolderId()}
 					<Consumer>
 						{(value) => (
 							<select
@@ -109,6 +149,9 @@ class AddNoteForm extends Component {
 							</select>
 						)}
 					</Consumer>
+					{this.state.submitted && (
+						<ValidateInputError massage={this.validateFolderId()} />
+					)}
 				</div>
 				<div className='add__button'>
 					<button
@@ -119,7 +162,16 @@ class AddNoteForm extends Component {
 					</button>
 				</div>
 				<div className='add__button'>
-					<button type='submit'>Add Note</button>
+					<button
+						type='submit'
+						disabled={
+							this.validateFolderId() ||
+							this.validateContent() ||
+							this.validateName()
+						}
+					>
+						Add Note
+					</button>
 				</div>
 			</form>
 		)
