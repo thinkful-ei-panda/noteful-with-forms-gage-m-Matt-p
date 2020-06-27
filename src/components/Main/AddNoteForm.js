@@ -26,21 +26,13 @@ class AddNoteForm extends Component {
 
 	validateContent = () => {
 		if (this.state.form.content.length < 10) {
-			return (
-				<div className='error__message'>
-					{'...please enter 10 or more characters'}
-				</div>
-			)
+			return '...please enter 10 or more characters'
 		}
 	}
 
 	validateFolderId = () => {
 		if (this.state.form.folderId.length === 0) {
-			return (
-				<div className='error__message'>
-					{'please select a folder'}
-				</div>
-			)
+			return 'please select a folder'
 		}
 	}
 
@@ -154,7 +146,7 @@ class AddNoteForm extends Component {
 						)}
 					</Consumer>
 					{this.state.submitted && (
-						<ValidateInputError massage={this.validateFolderId()} />
+						<ValidateInputError message={this.validateFolderId()} />
 					)}
 				</div>
 				<div className='add__button'>

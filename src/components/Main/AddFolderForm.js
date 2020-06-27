@@ -73,7 +73,7 @@ class AddFolderForm extends Component {
 						required
 					/>
 				</div>
-				<ValidateInputError massages={this.validateInput()} />
+				<ValidateInputError messages={this.validateInput()} />
 				<div className='add__button'>
 					<button type='submit' disabled={this.validateInput()}>
 						Add Button
