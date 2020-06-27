@@ -5,6 +5,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import './Main.css'
 import './button.css'
 import { Context, Consumer } from '../../AppContext'
+import ErrorBoundary from '../ErrorBoundary'
 
 class NoteMain extends Component {
 	static contextType = Context
@@ -12,6 +13,7 @@ class NoteMain extends Component {
 	handleClickDelete = (event) => {
 		event.preventDefault()
 		const { noteid } = this.props.match.params
+		const { deleteNote } = this.context.actions
 		fetch(`http://localhost:9090/notes/${noteid}`, {
 			method: 'DELETE',
 		})
@@ -23,25 +25,29 @@ class NoteMain extends Component {
 				}
 				return res.json()
 			})
+			.then((data) => deleteNote(noteid))
+			.catch((error) => console.log(error))
 			.then(() => this.props.history.push('/'))
 	}
 
 	render() {
 		const { noteid } = this.props.match.params
 		const { getCurrentNote } = this.context.actions
-		const { deleteNote } = this.context.actions
-		console.log(this.props)
+
 		return (
 			<main className='app__main'>
 				<section className='note__list__wrapper'>
 					<li className='note__item'>
 						<div className='note__'>
-							<h2 className='note__title'>
-								<Link to={`/note/${noteid}`}>
-									{getCurrentNote(noteid) &&
-										getCurrentNote(noteid).name}
-								</Link>
-							</h2>
+							<ErrorBoundary>
+								<h2 className='note__title'>
+									<Link to={`/note/${noteid}`}>
+										{getCurrentNote(noteid) &&
+											getCurrentNote(noteid).name}
+									</Link>
+								</h2>
+							</ErrorBoundary>
+
 							<Consumer>
 								{(value) => (
 									<MdDeleteForever
@@ -49,22 +55,22 @@ class NoteMain extends Component {
 										id={noteid}
 										className='delete__icon'
 										onClick={(event) => {
-											console.log('clicked')
 											this.handleClickDelete(event)
-											deleteNote(noteid)
 										}}
 									/>
 								)}
 							</Consumer>
 
 							<div className='note__dates'>
-								<div className='note__date__'>
-									Modified{' '}
-									<span className='date'>{`${new Date(
-										getCurrentNote(noteid) &&
-											getCurrentNote(noteid).modified
-									).toDateString()}`}</span>
-								</div>
+								<ErrorBoundary>
+									<div className='note__date__'>
+										Modified{' '}
+										<span className='date'>{`${new Date(
+											getCurrentNote(noteid) &&
+												getCurrentNote(noteid).modified
+										).toDateString()}`}</span>
+									</div>
+								</ErrorBoundary>
 							</div>
 						</div>
 					</li>

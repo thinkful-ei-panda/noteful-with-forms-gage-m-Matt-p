@@ -26,8 +26,14 @@ export class AppContext extends Component {
 	getName = (id) =>
 		this.state.folders.find((folder) => folder.id === id)
 
-	getFolderId = (matchId) =>
-		this.state.notes.find((note) => note.id === matchId)
+	getFolderId = (matchId) => {
+		const note = this.state.notes.find((note) => note.id === matchId)
+		if (note === undefined) {
+			return 'Error'
+		}
+		const folderName = this.getName(note.folderId).name
+		return folderName
+	}
 
 	addFolder = (folder) => {
 		this.setState({

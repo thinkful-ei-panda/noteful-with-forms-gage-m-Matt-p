@@ -51,8 +51,6 @@ class AddFolderForm extends Component {
 	}
 	static contextType = Context
 	render() {
-		console.log(this.state.error)
-
 		return (
 			<form
 				className='add__folder__form'
