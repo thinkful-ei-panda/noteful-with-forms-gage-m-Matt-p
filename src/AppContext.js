@@ -5,6 +5,8 @@ export const Context = React.createContext({
 	addNote: () => {},
 	deleteNote: () => {},
 	getCurrentNote: () => {},
+	getFolderId: () => {},
+	getName: () => {},
 })
 
 export class AppContext extends Component {

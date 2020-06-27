@@ -23,7 +23,11 @@ class AddFolderForm extends Component {
 	}
 
 	validateInput = () => {
-		if (this.state.folderNameValue.length < 3) {
+		const { folderNameValue } = this.state
+		if (
+			folderNameValue.length < 3 ||
+			!folderNameValue.match(/^(\w+\S+)$/)
+		) {
 			return 'filename must have a name (or a letter)'
 		}
 	}

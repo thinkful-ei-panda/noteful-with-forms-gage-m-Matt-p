@@ -85,3 +85,6 @@
 .note__item {
 	list-style-type: none;
 }
+.error__message {
+	display: block;
+}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 export default function ValidationError(props) {
 	if (props.message) {
-		return <div className='error'>{props.message}</div>
+		return <div className='error__message'>{props.message}</div>
 	}
 	return <></>
 }
