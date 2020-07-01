@@ -36,7 +36,7 @@ class NoteListItem extends Component {
 		const { note } = this.props
 
 		return (
-			<li className='note__item'>
+			
 				<div className='note__'>
 					<h2 className='note__title'>
 						<Link to={`/note/${note.id}`}>{note.name}</Link>
@@ -64,7 +64,7 @@ class NoteListItem extends Component {
 						</ErrorBoundary>
 					</div>
 				</div>
-			</li>
+			
 		)
 	}
 }

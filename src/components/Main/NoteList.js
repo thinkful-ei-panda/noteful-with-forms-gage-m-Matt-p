@@ -5,7 +5,7 @@ import { Consumer } from '../../AppContext'
 
 export default function NoteList() {
 	return (
-		<ul className='note__list'>
+		<div className='note__list'>
 			<Consumer>
 				{(value) =>
 					value.state.notes.map((note) => (
@@ -14,6 +14,6 @@ export default function NoteList() {
 				}
 			</Consumer>
 			<AddNoteButton />
-		</ul>
+		</div>
 	)
 }
