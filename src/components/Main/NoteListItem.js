@@ -16,19 +16,11 @@ class NoteListItem extends Component {
 		event.preventDefault()
 		const noteid = this.props.note.id
 		const { deleteNote } = this.context.actions
-		fetch(`http://localhost:9090/notes/${noteid}`, {
+		fetch(`http://localhost:3000/api/notes/${noteid}`, {
 			method: 'DELETE',
 		})
-			.then((res) => {
-				if (!res.ok) {
-					return res.json().then((error) => {
-						throw error
-					})
-				}
-				return res.json()
-			})
 			.catch((error) => console.log(error.message))
-			.then((data) => deleteNote(noteid))
+			.then(() => deleteNote(noteid))
 			.then(() => this.props.history.push('/'))
 	}
 	static contextType = Context
@@ -39,7 +31,9 @@ class NoteListItem extends Component {
 			<li className='note__item'>
 				<div className='note__'>
 					<h2 className='note__title'>
-						<Link to={`/note/${note.id}`}>{note.name}</Link>
+						<Link to={`/folder/${note.folder_id}/note/${note.id}`}>
+							{note.note_name}
+						</Link>
 					</h2>
 					<Consumer>
 						{(value) => (

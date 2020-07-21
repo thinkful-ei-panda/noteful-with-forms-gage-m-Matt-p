@@ -54,8 +54,8 @@ export class AppContext extends Component {
 
 	componentDidMount() {
 		Promise.all([
-			fetch(`http://localhost:9090/notes`),
-			fetch(`http://localhost:9090/folders`),
+			fetch(`http://localhost:3000/api/notes`),
+			fetch(`http://localhost:3000/api/folders`),
 		])
 			.then(([notesRes, foldersRes]) => {
 				if (!notesRes.ok)

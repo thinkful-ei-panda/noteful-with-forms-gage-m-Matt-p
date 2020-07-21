@@ -16,7 +16,7 @@ export default function FolderList(props) {
 						{(value) =>
 							value.state.notes.map(
 								(note) =>
-									note.folderId === folderid && (
+									note.folder_id === parseInt(folderid) && (
 										<NoteListItem key={note.id} note={note} />
 									)
 							)

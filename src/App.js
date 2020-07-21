@@ -16,9 +16,9 @@ const App = () => {
 	return (
 		<div className='App'>
 			<Switch>
-				<Route path='/folder/:folderid' component={Sidebar} />
+				<Route path='/folder/:folderid' exact component={Sidebar} />
 				<Route
-					path='/note/:noteid'
+					path='/folder/:folderid/note/:noteid'
 					render={(routeProps) => <NoteNav {...routeProps} />}
 				/>
 				<Route
@@ -35,10 +35,11 @@ const App = () => {
 			<Switch>
 				<Route
 					path='/folder/:folderid'
+					exact
 					render={(routeProps) => <FolderList {...routeProps} />}
 				/>
 				<Route
-					path='/note/:noteid'
+					path='/folder/:folderid/note/:noteid'
 					render={(routeProps) => <NoteMain {...routeProps} />}
 				/>
 				<Route path='/add-folder' component={AddFolderMain} />

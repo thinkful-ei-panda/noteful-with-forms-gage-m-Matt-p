@@ -5,13 +5,29 @@ import { Consumer, Context } from '../../AppContext'
 import ErrorBoundary from '../ErrorBoundary'
 
 class NoteNav extends Component {
-	currentNoteId = this.props.match.params.noteid
+	state = {
+		folder: {},
+	}
+	componentDidMount() {
+		const { folderid } = this.props.match.params
+
+		fetch(`http://localhost:3000/api/folders/${folderid}`)
+			.then((foldersRes) => {
+				if (!foldersRes.ok)
+					return foldersRes.json().then((e) => Promise.reject(e))
+
+				return foldersRes.json()
+			})
+			.then((folder) => {
+				return this.setState({ folder })
+			})
+			.catch((error) => {
+				console.error({ error })
+			})
+	}
 
 	static contextType = Context
 	render() {
-		const { noteid } = this.props.match.params
-		const { getFolderId } = this.context.actions
-		const text = getFolderId(noteid)
 		return (
 			<nav className='Sidebar__nav'>
 				<div className='nav__list'>
@@ -24,7 +40,7 @@ class NoteNav extends Component {
 						{(value) => (
 							<div>
 								Folder:
-								{text}
+								{this.state.folder.folder_name}
 							</div>
 						)}
 					</Consumer>

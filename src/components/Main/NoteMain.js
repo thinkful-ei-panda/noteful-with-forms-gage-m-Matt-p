@@ -29,11 +29,21 @@ class NoteMain extends Component {
 			.catch((error) => console.log(error))
 			.then(() => this.props.history.push('/'))
 	}
+	componentDidMount() {
+		fetch(
+			`http://localhost:3000/api/notes/${this.props.match.params.noteid}`
+		)
+			.then((noteRes) => {
+				if (!noteRes) {
+					return noteRes.json.then((error) => Promise.reject(error))
+				}
+				return noteRes.json()
+			})
+			.then((data) => this.setState({ note: data }))
+	}
 
 	render() {
 		const { noteid } = this.props.match.params
-		const { getCurrentNote } = this.context.actions
-
 		return (
 			<main className='app__main'>
 				<section className='note__list__wrapper'>
@@ -41,9 +51,8 @@ class NoteMain extends Component {
 						<div className='note__'>
 							<ErrorBoundary>
 								<h2 className='note__title'>
-									<Link to={`/note/${noteid}`}>
-										{getCurrentNote(noteid) &&
-											getCurrentNote(noteid).name}
+									<Link to={`/`}>
+										{this.state && this.state.note.note_name}
 									</Link>
 								</h2>
 							</ErrorBoundary>
@@ -66,8 +75,7 @@ class NoteMain extends Component {
 									<div className='note__date__'>
 										Modified{' '}
 										<span className='date'>{`${new Date(
-											getCurrentNote(noteid) &&
-												getCurrentNote(noteid).modified
+											this.state && this.state.note.modified
 										).toDateString()}`}</span>
 									</div>
 								</ErrorBoundary>
@@ -76,10 +84,7 @@ class NoteMain extends Component {
 					</li>
 
 					<div className='note__content'>
-						<p>
-							{getCurrentNote(noteid) &&
-								getCurrentNote(noteid).content}
-						</p>
+						<p>{this.state && this.state.note.content}</p>
 					</div>
 				</section>
 			</main>

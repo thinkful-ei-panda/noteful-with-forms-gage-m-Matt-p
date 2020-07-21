@@ -32,11 +32,11 @@ class AddFolderForm extends Component {
 		}
 	}
 
-	addFoldertoApi = (newFolderName) => {
-		const jsonObj = JSON.stringify({ name: newFolderName })
+	addFoldertoApi = (folder_name) => {
+		const jsonObj = JSON.stringify({ folder_name })
 		const { addFolder } = this.context.actions
 
-		fetch('http://localhost:9090/folders', {
+		fetch('http://localhost:3000/api/folders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: jsonObj,

@@ -6,20 +6,23 @@ import ValidateInputError from './ValidateInputErrors'
 class AddNoteForm extends Component {
 	state = {
 		form: {
-			name: '',
+			note_name: '',
 			content: '',
 			modified: new Date(),
-			folderId: '',
+			folder_id: '',
 		},
 		error: null,
 		submitted: false,
 	}
 
 	validateName = () => {
-		const { name } = this.state.form
-		if (name.length === 0) {
+		const { note_name } = this.state.form
+		if (note_name.length === 0) {
 			return 'titles must at least...something'
-		} else if (name.length < 3 || !name.match(/^(\w+\S+)$/)) {
+		} else if (
+			note_name.length < 3 ||
+			!note_name.match(/^(\w+\S+)$/)
+		) {
 			return 'titles must at least be 3 characters'
 		}
 	}
@@ -31,7 +34,7 @@ class AddNoteForm extends Component {
 	}
 
 	validateFolderId = () => {
-		if (this.state.form.folderId.length === 0) {
+		if (this.state.form.folder_id.length === 0) {
 			return 'please select a folder'
 		}
 	}
@@ -44,7 +47,7 @@ class AddNoteForm extends Component {
 
 		const { addNote } = this.context.actions
 		const form = JSON.stringify(this.state.form)
-		fetch('http://localhost:9090/notes', {
+		fetch('http://localhost:3000/api/notes', {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: form,
@@ -72,13 +75,13 @@ class AddNoteForm extends Component {
 					<input
 						id='name__input'
 						type='text'
-						name='name'
-						value={this.state.form.name}
+						name='note_name'
+						value={this.state.form.note_name}
 						onChange={(event) =>
 							this.setState({
 								form: {
 									...this.state.form,
-									name: event.target.value,
+									note_name: event.target.value,
 								},
 							})
 						}
@@ -92,7 +95,7 @@ class AddNoteForm extends Component {
 						id='contenet__input'
 						type='text'
 						name='desc'
-						value={this.state.form.desc}
+						value={this.state.form.content}
 						onChange={(event) =>
 							this.setState({
 								form: {
@@ -124,7 +127,7 @@ class AddNoteForm extends Component {
 									this.setState({
 										form: {
 											...this.state.form,
-											folderId: event.target.value,
+											folder_id: event.target.value,
 										},
 									})
 								}
@@ -139,7 +142,7 @@ class AddNoteForm extends Component {
 										id={folder.id}
 										value={folder.id}
 									>
-										{folder.name}
+										{folder.folder_name}
 									</option>
 								))}
 							</select>
