@@ -54,8 +54,8 @@ export class AppContext extends Component {
 
 	componentDidMount() {
 		Promise.all([
-			fetch(`http://localhost:3000/api/notes`),
-			fetch(`http://localhost:3000/api/folders`),
+			fetch(`https://warm-stream-05375.herokuapp.com/api/notes`),
+			fetch(`https://warm-stream-05375.herokuapp.com/api/folders`),
 		])
 			.then(([notesRes, foldersRes]) => {
 				if (!notesRes.ok)

@@ -16,9 +16,12 @@ class NoteListItem extends Component {
 		event.preventDefault()
 		const noteid = this.props.note.id
 		const { deleteNote } = this.context.actions
-		fetch(`http://localhost:3000/api/notes/${noteid}`, {
-			method: 'DELETE',
-		})
+		fetch(
+			`https://warm-stream-05375.herokuapp.com/api/notes/${noteid}`,
+			{
+				method: 'DELETE',
+			}
+		)
 			.catch((error) => console.log(error.message))
 			.then(() => deleteNote(noteid))
 			.then(() => this.props.history.push('/'))

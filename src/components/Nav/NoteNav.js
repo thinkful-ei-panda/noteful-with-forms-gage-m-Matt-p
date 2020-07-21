@@ -11,7 +11,9 @@ class NoteNav extends Component {
 	componentDidMount() {
 		const { folderid } = this.props.match.params
 
-		fetch(`http://localhost:3000/api/folders/${folderid}`)
+		fetch(
+			`https://warm-stream-05375.herokuapp.com/api/folders/${folderid}`
+		)
 			.then((foldersRes) => {
 				if (!foldersRes.ok)
 					return foldersRes.json().then((e) => Promise.reject(e))

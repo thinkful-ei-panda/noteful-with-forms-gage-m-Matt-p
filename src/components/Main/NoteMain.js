@@ -31,7 +31,7 @@ class NoteMain extends Component {
 	}
 	componentDidMount() {
 		fetch(
-			`http://localhost:3000/api/notes/${this.props.match.params.noteid}`
+			`https://warm-stream-05375.herokuapp.com/api/notes/${this.props.match.params.noteid}`
 		)
 			.then((noteRes) => {
 				if (!noteRes) {

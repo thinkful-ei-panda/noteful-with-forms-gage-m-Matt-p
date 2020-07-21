@@ -24,10 +24,7 @@ class AddFolderForm extends Component {
 
 	validateInput = () => {
 		const { folderNameValue } = this.state
-		if (
-			folderNameValue.length < 3 ||
-			!folderNameValue.match(/^(\w+\S+)$/)
-		) {
+		if (folderNameValue.trim() === '') {
 			return 'filename must have a name (or a letter)'
 		}
 	}
@@ -36,7 +33,7 @@ class AddFolderForm extends Component {
 		const jsonObj = JSON.stringify({ folder_name })
 		const { addFolder } = this.context.actions
 
-		fetch('http://localhost:3000/api/folders', {
+		fetch('https://warm-stream-05375.herokuapp.com/api/folders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: jsonObj,

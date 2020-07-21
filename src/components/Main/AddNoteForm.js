@@ -47,7 +47,7 @@ class AddNoteForm extends Component {
 
 		const { addNote } = this.context.actions
 		const form = JSON.stringify(this.state.form)
-		fetch('http://localhost:3000/api/notes', {
+		fetch('https://warm-stream-05375.herokuapp.com/api/notes', {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: form,
